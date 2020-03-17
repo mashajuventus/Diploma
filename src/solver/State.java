@@ -36,9 +36,50 @@ public class State {
 //        this.edges.remove(cutGlue);
     }
 
-//    public int distanceTo(State state) {
-//
-//    }
+    private Map<Edge, Edge> stateToMap() {
+        Map<Edge, Edge> stateEdges = new HashMap<>();
+        for (Pair edgePair : this.edges) {
+            stateEdges.put(edgePair.first, edgePair.second);
+            stateEdges.put(edgePair.second, edgePair.first);
+        }
+        return stateEdges;
+    }
+
+    public int distanceTo(State state) {
+        Map<Edge, Edge> thisEdges = this.stateToMap();
+        Map<Edge, Edge> otherEdges = state.stateToMap();
+
+        Map<Edge, Boolean> isInCycle = new HashMap<>();
+        for (Edge edge : thisEdges.keySet()) {
+            isInCycle.put(edge, false);
+        }
+
+        int cyclesCount = 0;
+        while (true) {
+            boolean hasUnmatched = false;
+            // find some unmatched
+
+            Edge unmatchedEdge = null;
+            for (Map.Entry<Edge, Boolean> edgeBooleanEntry : isInCycle.entrySet()) {
+                if (!edgeBooleanEntry.getValue()) {
+                    unmatchedEdge = edgeBooleanEntry.getKey();
+                    hasUnmatched = true;
+                }
+            }
+            if (hasUnmatched) {
+                boolean previousInThis = false;
+                while (!isInCycle.get(unmatchedEdge)) {
+                    isInCycle.replace(unmatchedEdge, true);
+                    unmatchedEdge = (previousInThis) ? otherEdges.get(unmatchedEdge) : thisEdges.get(unmatchedEdge);
+                    previousInThis = !previousInThis;
+                }
+                cyclesCount++;
+            } else {
+                break;
+            }
+        }
+        return edges.size() + 1 - cyclesCount;
+    }
 
 //    public static boolean equalsTo(List<Pair> edges1, List<Pair> edges2) {
 //        Comparator<Pair> comparator = (pair1, pair2) -> {

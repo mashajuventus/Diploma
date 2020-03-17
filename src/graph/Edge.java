@@ -5,10 +5,12 @@ import java.util.Comparator;
 public class Edge {
     public int polygonId;
     public int edgeId;
+//    public Edge gluedTo;
 
     public Edge(int polygonId, int edgeId) {
         this.polygonId = polygonId;
         this.edgeId = edgeId;
+//        this.gluedTo = null;
     }
 
     public boolean equals(Edge edge) {

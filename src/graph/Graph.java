@@ -63,6 +63,9 @@ public class Graph {
         v0h.insertInClass(v1t);
         v1h.insertInClass(v0t);
 
+//        e0.gluedTo = e1;
+//        e1.gluedTo = e0;
+
         this.state.addToState(gluePair);
     }
 
