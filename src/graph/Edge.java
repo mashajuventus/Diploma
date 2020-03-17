@@ -1,6 +1,8 @@
 package graph;
 
 import java.util.Comparator;
+import java.util.Objects;
+import java.util.TreeSet;
 
 public class Edge {
     public int polygonId;
@@ -13,13 +15,22 @@ public class Edge {
 //        this.gluedTo = null;
     }
 
-    public boolean equals(Edge edge) {
-        return this.polygonId == edge.polygonId &&
-                this.edgeId == edge.edgeId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edge edge = (Edge) o;
+        return polygonId == edge.polygonId &&
+                edgeId == edge.edgeId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(polygonId, edgeId);
     }
 
     public String toString() {
-        return this.polygonId + " " + this.edgeId;
+        return "p" + this.polygonId + "e" + this.edgeId;
     }
 
     public static Comparator<Edge> comparator = (Edge edge1, Edge edge2) -> {

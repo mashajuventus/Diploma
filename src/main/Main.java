@@ -26,13 +26,13 @@ public class Main {
             }
             cntEdges /= 2;
             Graph graph = new Graph(sizes);
-//            for (int ind = 0; ind < cntEdges; ind++) {
-//                Edge e0 = new Edge(scannerGraph.nextInt(), scannerGraph.nextInt());
-//                Edge e1 = new Edge(scannerGraph.nextInt(), scannerGraph.nextInt());
-//                Pair pair = new Pair(e0, e1);
-//                graph.glueEdges(pair);
-//            }
-//
+            for (int ind = 0; ind < cntEdges; ind++) {
+                Edge e0 = new Edge(scannerGraph.nextInt(), scannerGraph.nextInt());
+                Edge e1 = new Edge(scannerGraph.nextInt(), scannerGraph.nextInt());
+                Pair pair = new Pair(e0, e1);
+                graph.glueEdges(pair);
+            }
+
 //            System.out.println("Before dcj");
 //            for (Polygon polygon : graph.polygons) {
 //                System.out.println("Polygon " + polygon.id + ":");

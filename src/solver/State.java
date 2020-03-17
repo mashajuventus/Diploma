@@ -14,11 +14,11 @@ public class State {
     }
 
     public State(List<Pair> edges) {
-        this.edges = edges;
+        this.edges = new ArrayList<>(edges);
     }
 
     public void setState(List<Pair> edges) {
-        this.edges = edges;
+        this.edges = new ArrayList<>(edges);
     }
 
     public void addToState(Pair newGlue) {
@@ -39,8 +39,8 @@ public class State {
     private Map<Edge, Edge> stateToMap() {
         Map<Edge, Edge> stateEdges = new HashMap<>();
         for (Pair edgePair : this.edges) {
-            stateEdges.put(edgePair.first, edgePair.second);
-            stateEdges.put(edgePair.second, edgePair.first);
+            if (stateEdges.put(edgePair.first, edgePair.second) != null) throw new AssertionError();
+            if (stateEdges.put(edgePair.second, edgePair.first) != null) throw new AssertionError();
         }
         return stateEdges;
     }
@@ -49,36 +49,45 @@ public class State {
         Map<Edge, Edge> thisEdges = this.stateToMap();
         Map<Edge, Edge> otherEdges = state.stateToMap();
 
-        Map<Edge, Boolean> isInCycle = new HashMap<>();
-        for (Edge edge : thisEdges.keySet()) {
-            isInCycle.put(edge, false);
-        }
+        Set<Map.Entry<Edge, Edge>> diff = thisEdges.entrySet();
+        diff.removeAll(otherEdges.entrySet());
+        return diff.size() / 4;
 
-        int cyclesCount = 0;
-        while (true) {
-            boolean hasUnmatched = false;
-            // find some unmatched
-
-            Edge unmatchedEdge = null;
-            for (Map.Entry<Edge, Boolean> edgeBooleanEntry : isInCycle.entrySet()) {
-                if (!edgeBooleanEntry.getValue()) {
-                    unmatchedEdge = edgeBooleanEntry.getKey();
-                    hasUnmatched = true;
-                }
-            }
-            if (hasUnmatched) {
-                boolean previousInThis = false;
-                while (!isInCycle.get(unmatchedEdge)) {
-                    isInCycle.replace(unmatchedEdge, true);
-                    unmatchedEdge = (previousInThis) ? otherEdges.get(unmatchedEdge) : thisEdges.get(unmatchedEdge);
-                    previousInThis = !previousInThis;
-                }
-                cyclesCount++;
-            } else {
-                break;
-            }
-        }
-        return edges.size() + 1 - cyclesCount;
+//        if (!new HashSet<>(thisEdges.keySet()).equals(new HashSet<>(otherEdges.keySet())))
+//            throw new AssertionError();
+//
+//        Map<Edge, Boolean> isInCycle = new HashMap<>();
+//        for (Edge edge : thisEdges.keySet()) {
+//            isInCycle.put(edge, false);
+//        }
+//
+//        int cyclesCount = 0;
+//        while (true) {
+//            boolean hasUnmatched = false;
+//            // find some unmatched
+//            Edge unmatchedEdge = null;
+//            for (Map.Entry<Edge, Boolean> edgeBooleanEntry : isInCycle.entrySet()) {
+//                if (!edgeBooleanEntry.getValue()) {
+//                    unmatchedEdge = edgeBooleanEntry.getKey();
+//                    hasUnmatched = true;
+//                    break;
+//                }
+//            }
+//            System.out.println("unmatched edge is " + unmatchedEdge);
+//            if (hasUnmatched) {
+//                boolean previousInThis = false;
+//                while (!isInCycle.get(unmatchedEdge)) {
+//                    isInCycle.put(unmatchedEdge, true);
+//                    unmatchedEdge = (previousInThis) ? otherEdges.get(unmatchedEdge) : thisEdges.get(unmatchedEdge);
+//                    previousInThis = !previousInThis;
+//                    System.out.println("  next unmatched is " + unmatchedEdge);
+//                }
+//                cyclesCount++;
+//            } else {
+//                break;
+//            }
+//        }
+//        return edges.size() - cyclesCount;
     }
 
 //    public static boolean equalsTo(List<Pair> edges1, List<Pair> edges2) {
