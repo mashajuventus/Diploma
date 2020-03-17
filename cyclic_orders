@@ -1,0 +1,57 @@
+after dcj
+Polygon 0:
+  vertex 0 order = 0*0, 0*5, 2*6, 2*5, 1*2, 1*1, 2*0, 2*11, 
+  vertex 1 order = 0*2, 0*1, 2*10, 2*9, 2*2, 2*1, 1*0, 1*5, 
+  vertex 2 order = 0*4, 0*3, 1*4, 1*3, 2*4, 2*3, 2*8, 2*7, 
+
+Polygon 1:
+  vertex 0 order = 1*0, 1*5, 0*2, 0*1, 2*10, 2*9, 2*2, 2*1, 
+  vertex 1 order = 1*2, 1*1, 2*0, 2*11, 0*0, 0*5, 2*6, 2*5, 
+  vertex 2 order = 1*4, 1*3, 2*4, 2*3, 2*8, 2*7, 0*4, 0*3, 
+
+Polygon 2:
+  vertex 0 order = 2*0, 2*11, 0*0, 0*5, 2*6, 2*5, 1*2, 1*1, 
+  vertex 1 order = 2*2, 2*1, 1*0, 1*5, 0*2, 0*1, 2*10, 2*9, 
+  vertex 2 order = 2*4, 2*3, 2*8, 2*7, 0*4, 0*3, 1*4, 1*3, 
+  vertex 3 order = 2*6, 2*5, 1*2, 1*1, 2*0, 2*11, 0*0, 0*5, 
+  vertex 4 order = 2*8, 2*7, 0*4, 0*3, 1*4, 1*3, 2*4, 2*3, 
+  vertex 5 order = 2*10, 2*9, 2*2, 2*1, 1*0, 1*5, 0*2, 0*1, 
+
+after dcj
+Polygon 0:
+  vertex 0 order = 0*0, 0*5, 1*2, 1*1, 2*0, 2*11, 
+  vertex 1 order = 0*2, 0*1, 2*10, 2*9, 2*2, 2*1, 1*0, 1*5, 
+  vertex 2 order = 0*4, 0*3, 1*4, 1*3, 
+
+Polygon 1:
+  vertex 0 order = 1*0, 1*5, 0*2, 0*1, 2*10, 2*9, 2*2, 2*1, 
+  vertex 1 order = 1*2, 1*1, 2*0, 2*11, 0*0, 0*5, 
+  vertex 2 order = 1*4, 1*3, 0*4, 0*3, 
+
+Polygon 2:
+  vertex 0 order = 2*0, 2*11, 0*0, 0*5, 1*2, 1*1, 
+  vertex 1 order = 2*2, 2*1, 1*0, 1*5, 0*2, 0*1, 2*10, 2*9, 
+  vertex 2 order = 2*4, 2*3, 2*8, 2*7, 
+  vertex 3 order = 2*6, 2*5, 
+  vertex 4 order = 2*8, 2*7, 2*4, 2*3, 
+  vertex 5 order = 2*10, 2*9, 2*2, 2*1, 1*0, 1*5, 0*2, 0*1, 
+
+after dcj
+Polygon 0:
+  vertex 0 order = 0*0, 0*5, 1*2, 1*1, 
+  vertex 1 order = 0*2, 0*1, 1*0, 1*5, 
+  vertex 2 order = 0*4, 0*3, 1*4, 1*3, 
+
+Polygon 1:
+  vertex 0 order = 1*0, 1*5, 0*2, 0*1, 
+  vertex 1 order = 1*2, 1*1, 0*0, 0*5, 
+  vertex 2 order = 1*4, 1*3, 0*4, 0*3, 
+
+Polygon 2:
+  vertex 0 order = 2*0, 2*11, 
+  vertex 1 order = 2*2, 2*1, 2*10, 2*9, 
+  vertex 2 order = 2*4, 2*3, 2*8, 2*7, 
+  vertex 3 order = 2*6, 2*5, 
+  vertex 4 order = 2*8, 2*7, 2*4, 2*3, 
+  vertex 5 order = 2*10, 2*9, 2*2, 2*1, 
+
