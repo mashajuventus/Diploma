@@ -2,17 +2,14 @@ package graph;
 
 import java.util.Comparator;
 import java.util.Objects;
-import java.util.TreeSet;
 
 public class Edge {
     public int polygonId;
     public int edgeId;
-//    public Edge gluedTo;
 
     public Edge(int polygonId, int edgeId) {
         this.polygonId = polygonId;
         this.edgeId = edgeId;
-//        this.gluedTo = null;
     }
 
     @Override

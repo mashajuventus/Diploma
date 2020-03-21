@@ -3,6 +3,7 @@ package solver;
 import graph.Edge;
 import utils.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DCJ {
@@ -10,8 +11,8 @@ public class DCJ {
     public List<Pair> edgesToGlue;
 
     public DCJ(List<Pair> edgesToCut, List<Pair> edgesToGlue) {
-        this.edgesToCut = edgesToCut;
-        this.edgesToGlue = edgesToGlue;
+        this.edgesToCut = new ArrayList<>(edgesToCut);
+        this.edgesToGlue = new ArrayList<>(edgesToGlue);
     }
 
     @Override
@@ -23,25 +24,25 @@ public class DCJ {
         Pair glue1 = edgesToGlue.get(1);
         builder.append("  edges to cut:\n")
                 .append("    ")
-                .append(cut0.first.polygonId).append("-").append(cut0.first.edgeId)
+                .append(cut0.first)
                 .append(" and ")
-                .append(cut0.second.polygonId).append("-").append(cut0.second.edgeId)
+                .append(cut0.second)
                 .append("\n")
                 .append("    ")
-                .append(cut1.first.polygonId).append("-").append(cut1.first.edgeId)
+                .append(cut1.first)
                 .append(" and ")
-                .append(cut1.second.polygonId).append("-").append(cut1.second.edgeId)
+                .append(cut1.second)
                 .append("\n")
                 .append("  edges to glue:\n")
                 .append("    ")
-                .append(glue0.first.polygonId).append("-").append(glue0.first.edgeId)
+                .append(glue0.first)
                 .append(" and ")
-                .append(glue0.second.polygonId).append("-").append(glue0.second.edgeId)
+                .append(glue0.second)
                 .append("\n")
                 .append("    ")
-                .append(glue1.first.polygonId).append("-").append(glue1.first.edgeId)
+                .append(glue1.first)
                 .append(" and ")
-                .append(glue1.second.polygonId).append("-").append(glue1.second.edgeId)
+                .append(glue1.second)
                 .append("\n");
         return builder.toString();
     }

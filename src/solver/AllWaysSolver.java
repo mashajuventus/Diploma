@@ -1,9 +1,10 @@
 package solver;
 
+import graph.Edge;
 import graph.Graph;
+import utils.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class AllWaysSolver {
 
@@ -20,7 +21,7 @@ public class AllWaysSolver {
         bestHeight = Integer.MAX_VALUE;
         bestOperations = new ArrayList<>();
         this.bestVerticesResult = graph.bestAnswer();
-        System.out.println("bestVerticesPossible is " + bestVerticesResult);
+//        System.out.println("bestVerticesPossible is " + bestVerticesResult);
     }
 
     public void buildTree(int height) {
@@ -29,7 +30,7 @@ public class AllWaysSolver {
         // if the answer equals to current then check the height
             // if it is better than current, set new
             // if it equals to current, add new operations
-        // if height is 0 or best answer achieved then return
+        // if height is 0 or best answer is achieved then return
 
         // create all possible dcj
         // for every do the follow
@@ -76,5 +77,106 @@ public class AllWaysSolver {
             helpBuild(height - 1, maxHeight, newOpers);
             startGraph.undoDCJ(dcj);
         }
+    }
+
+    public List<DCJ> solve() {
+        List<State> bestStates = startGraph.genBestStates();
+
+        // find one closest state
+        int bestDistance = Integer.MAX_VALUE;
+        State bestState = null;
+
+        for (State state : bestStates) {
+//            int thisStateDistance = startGraph.state.distanceTo(state, false);
+            List<DCJ> way = wayToBestGlue(startGraph.state, state);
+            int thisStateDistance = way.size();
+            System.out.println(thisStateDistance);
+            if (thisStateDistance < bestDistance) {
+                bestDistance = thisStateDistance;
+                bestState = state;
+            }
+        }
+
+//        System.err.println("result best state is");
+//        for (Pair pair : bestState.edges) {
+//            System.err.println("   " + pair.first + " + " + pair.second);
+//        }
+//        System.err.println("");
+
+//        System.out.println("from distance to");
+//        startGraph.state.distanceTo(bestState, true);
+
+        List<DCJ> wayToBest = wayToBestGlue(startGraph.state, bestState);
+//        System.err.println("size of list is " + wayToBest.size());
+//        System.err.println("size in hashsets is " + startGraph.state.distanceTo(bestState, false));
+        return wayToBest;
+    }
+
+    public List<DCJ> wayToBestGlue(State currentState, State bestState) {
+        Map<Edge, Edge> currentEdges = currentState.stateToMap();
+        Map<Edge, Edge> bestEdges = bestState.stateToMap();
+
+        if (!new HashSet<>(currentEdges.keySet()).equals(new HashSet<>(bestEdges.keySet())))
+            throw new AssertionError();
+
+        Map<Edge, Boolean> isInCycle = new HashMap<>();
+        for (Edge edge : currentEdges.keySet()) {
+            isInCycle.put(edge, false);
+        }
+
+        List<List<Edge>> cycles = new ArrayList<>();
+        while (true) {
+            boolean hasUnmatched = false;
+            // find some unmatched
+            Edge unmatchedEdge = null;
+            for (Map.Entry<Edge, Boolean> edgeBooleanEntry : isInCycle.entrySet()) {
+                if (!edgeBooleanEntry.getValue()) {
+                    unmatchedEdge = edgeBooleanEntry.getKey();
+                    hasUnmatched = true;
+                    break;
+                }
+            }
+//            System.out.println("unmatched edge is " + unmatchedEdge);
+            if (hasUnmatched) {
+                List<Edge> currentCycle = new ArrayList<>();
+                boolean previousInCurrent = false;
+                while (!isInCycle.get(unmatchedEdge)) {
+                    currentCycle.add(unmatchedEdge);
+                    isInCycle.put(unmatchedEdge, true);
+                    unmatchedEdge = (previousInCurrent) ? bestEdges.get(unmatchedEdge) : currentEdges.get(unmatchedEdge);
+                    previousInCurrent = !previousInCurrent;
+//                    System.out.println("  next unmatched is " + unmatchedEdge);
+                }
+                if (currentCycle.size() > 2) {
+                    cycles.add(currentCycle);
+                }
+            } else {
+                break;
+            }
+        }
+
+        List<DCJ> answer = new ArrayList<>();
+        for (List<Edge> cycle : cycles) {
+            while (cycle.size() > 2) {
+                Edge e0 = cycle.get(0);
+                Edge e1 = cycle.get(1);
+                Edge e2 = cycle.get(2);
+                Edge e3 = cycle.get(3);
+
+                List<Pair> toCut = new ArrayList<>();
+                toCut.add(new Pair(e0, e1));
+                toCut.add(new Pair(e2, e3));
+
+                List<Pair> toGlue = new ArrayList<>();
+                toGlue.add(new Pair(e1, e2));
+                toGlue.add(new Pair(e0, e3));
+
+                cycle.remove(e1);
+                cycle.remove(e2);
+
+                answer.add(new DCJ(toCut, toGlue));
+            }
+        }
+        return answer;
     }
 }

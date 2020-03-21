@@ -2,7 +2,6 @@ package graph;
 
 import solver.DCJ;
 import solver.State;
-import sun.security.krb5.internal.PAData;
 import utils.Pair;
 import utils.Utils;
 
@@ -199,12 +198,12 @@ public class Graph {
                 int indOfPol = indices.get(i);
                 oneGluing.addAll(gluingsForOddAndEven.get(i).get(indOfPol));
             }
-            System.out.println();
-            System.out.println(oneGluing);
-            System.out.println();
+//            System.out.println();
+//            System.out.println(oneGluing);
+//            System.out.println();
             answer.add(new State(oneGluing));
         }
-        System.err.println(answer.size() + " -- all best gluings");
+//        System.err.println(answer.size() + " -- all best gluings");
         return answer;
     }
 
@@ -334,7 +333,7 @@ public class Graph {
     public List<List<Pair>> genOddPolygons(List<Edge> edges1, List<Edge> edges2) {
         List<List<Pair>> answer = new ArrayList<>();
         for (int l = 1; l <= Math.min(edges1.size(), edges2.size()); l += 2) {
-            System.err.println("l = " + l);
+//            System.err.println("l = " + l);
             for (int st1 = 0; st1 < edges1.size(); st1++) {
 
                 if (l == Math.min(edges1.size(), edges2.size()) && edges1.size() == edges2.size()) {
@@ -343,7 +342,7 @@ public class Graph {
                         commonGlue.add(new Pair(edges1.get((i + st1) % l), edges2.get(i)));
                     }
                     answer.add(commonGlue);
-                    System.err.println(commonGlue);
+//                    System.err.println(commonGlue);
                     // fix st2
                 } else {
                     List<Edge> from1 = Utils.sublist(edges1, st1, l);
@@ -359,9 +358,9 @@ public class Graph {
                         List<Edge> other2 = Utils.sublist(edges2, (st2 + l) % edges2.size(), (edges2.size() - l));
 
                         List<List<Pair>> newGl = Utils.joinTwoGlues(genEvenPolygons(other1), genEvenPolygons(other2), commonGlue);
-                        for (List<Pair> oneGlue : newGl) {
-                            System.out.println(oneGlue);
-                        }
+//                        for (List<Pair> oneGlue : newGl) {
+//                            System.out.println(oneGlue);
+//                        }
                         answer.addAll(newGl);
                     }
                 }
