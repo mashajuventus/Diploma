@@ -21,6 +21,15 @@ public class Graph {
         state = new State();
     }
 
+    public Graph(List<Polygon> polygons, State state) {
+        this.polygons = new ArrayList<>(polygons);
+        this.state = new State(state.edges);
+    }
+
+    public Graph copy() {
+        return new Graph(this.polygons, this.state);
+    }
+
 //    public void test(DCJ dcj) {
 //        List<Pair> state = new ArrayList<>(this.state.edges);
 //        System.out.println(state);

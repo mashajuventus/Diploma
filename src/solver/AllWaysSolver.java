@@ -90,7 +90,7 @@ public class AllWaysSolver {
 //            int thisStateDistance = startGraph.state.distanceTo(state, false);
             List<DCJ> way = wayToBestGlue(startGraph.state, state);
             int thisStateDistance = way.size();
-            System.out.println(thisStateDistance);
+//            System.out.println(thisStateDistance);
             if (thisStateDistance < bestDistance) {
                 bestDistance = thisStateDistance;
                 bestState = state;

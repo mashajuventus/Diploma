@@ -3,6 +3,7 @@ package main;
 import graph.*;
 import solver.AllWaysSolver;
 import solver.DCJ;
+import solver.PatternsSolver;
 import solver.State;
 import utils.Pair;
 
@@ -37,14 +38,38 @@ public class Main {
             // then find the distances between start gluing and each best one
             // choose one minimum and find the dcj operation to it
 
-            AllWaysSolver solver = new AllWaysSolver(graph);
-            List<DCJ> dcjOpers = solver.solve();
-            for (DCJ dcj : dcjOpers) {
-                System.out.println(dcj);
-                System.out.println("------------------------");
-            }
-            System.out.println("distance is " + dcjOpers.size());
+//            AllWaysSolver solver = new AllWaysSolver(graph);
+//            List<DCJ> dcjOpers = solver.solve();
+//            for (DCJ dcj : dcjOpers) {
+//                System.out.println(dcj);
+//                System.out.println("------------------------");
+//            }
+//            System.out.println("distance is " + dcjOpers.size());
+            try (Scanner scanner = new Scanner(new File("dcj_opers"))) {
+//                State beforeSCJ = new State(graph.state.edges);
 
+                int cntOpers = scanner.nextInt();
+                for (int ind = 0; ind < cntOpers; ind++) {
+
+                    List<List<Pair>> edgesForDCJ = new ArrayList<>();
+                    for (int it = 0; it < 2; it++) {
+                        List<Pair> edgesTo = new ArrayList<>();
+                        for (int k = 0; k < 2; k++) {
+                            Edge e0 = new Edge(scanner.nextInt(), scanner.nextInt());
+                            Edge e1 = new Edge(scanner.nextInt(), scanner.nextInt());
+                            edgesTo.add(new Pair(e0, e1));
+                        }
+                        edgesForDCJ.add(edgesTo);
+                    }
+                    DCJ dcj = new DCJ(edgesForDCJ.get(0), edgesForDCJ.get(1));
+                    graph.doDCJ(dcj);
+                }
+
+//                State afterDCJ = new State(graph.state.edges);
+//                System.out.println("after dcj distance is " + beforeSCJ.distanceTo(afterDCJ));
+            }
+            PatternsSolver solver = new PatternsSolver(graph);
+            solver.solve();
 //            System.out.println("Before dcj");
 //            for (Polygon polygon : graph.polygons) {
 //                System.out.println("Polygon " + polygon.id + ":");
