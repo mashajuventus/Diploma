@@ -41,34 +41,42 @@ public class PatternsSolver {
 //        return res;
 //    }
 
-    public void solve() {
+    public void solve(int bestAnswer) {
         Polygon specialPolygon = maxSizePolygon();
         Graph graph = startGraph.copy();
-        helper(graph, specialPolygon, 0, new ArrayList<>());
+        helper(graph, specialPolygon, 0, new ArrayList<>(), bestAnswer);
     }
 
-    private void helper(Graph graph, Polygon specialPolygon, int depth, List<DCJ> opers) {
+    private void helper(Graph graph, Polygon specialPolygon, int depth, List<DCJ> opers, int bestAnswer) {
         List<DCJ> potentialDCJs = potentialDCJs(graph, specialPolygon);
         if (potentialDCJs.size() == 0) {
 //            System.out.println("after " + depth + " steps distances are");
-            List<Integer> newDistances = new ArrayList<>();
-            for (State state : allBestStates) {
-                int len = sol.wayToBestGlue(graph.state, state).size();
-                newDistances.add(len);
-                if (len == 0) {
-                    System.out.println("depth is " + depth);
-                    System.out.println(opers);
-                }
-            }
+//            List<Integer> newDistances = new ArrayList<>();
+//            for (State state : allBestStates) {
+//                int len = sol.wayToBestGlue(graph.state, state).size();
+//                newDistances.add(len);
+//                if (len == 0) {
+//                    System.out.println("depth is " + depth);
+//                    System.out.println(opers);
+//                }
+//            }
 //            System.out.println(newDistances);
+            AllWaysSolver solver = new AllWaysSolver(graph);
+            System.out.println();
+            System.out.println(solver.solve().size() + depth);
             return;
-        }
-        for (DCJ dcj : potentialDCJs) {
-            graph.doDCJ(dcj);
-            opers.add(dcj);
-            helper(graph, specialPolygon, depth + 1, opers);
-            opers.remove(opers.size() - 1);
-            graph.undoDCJ(dcj);
+        } else {
+            if (depth >= bestAnswer) {
+                System.out.print("-");
+                return;
+            }
+            for (DCJ dcj : potentialDCJs) {
+                graph.doDCJ(dcj);
+                opers.add(dcj);
+                helper(graph, specialPolygon, depth + 1, opers, bestAnswer);
+                opers.remove(opers.size() - 1);
+                graph.undoDCJ(dcj);
+            }
         }
     }
 

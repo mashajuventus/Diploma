@@ -68,8 +68,13 @@ public class Main {
 //                State afterDCJ = new State(graph.state.edges);
 //                System.out.println("after dcj distance is " + beforeSCJ.distanceTo(afterDCJ));
             }
+
+            AllWaysSolver allWaysSolver = new AllWaysSolver(graph);
+            int ans = allWaysSolver.solve().size();
+            System.out.println("all ways answer = " + ans);
+
             PatternsSolver solver = new PatternsSolver(graph);
-            solver.solve();
+            solver.solve(ans);
 //            System.out.println("Before dcj");
 //            for (Polygon polygon : graph.polygons) {
 //                System.out.println("Polygon " + polygon.id + ":");

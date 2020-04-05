@@ -53,5 +53,4 @@ Polygon 2:
   vertex 2 order = 2*4, 2*3, 2*8, 2*7, 
   vertex 3 order = 2*6, 2*5, 
   vertex 4 order = 2*8, 2*7, 2*4, 2*3, 
-  vertex 5 order = 2*10, 2*9, 2*2, 2*1, 
-
+  vertex 5 order = 2*10, 2*9, 2*2, 2*1,
