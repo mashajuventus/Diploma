@@ -49,13 +49,17 @@ public class Generator {
                     edg.add(j);
                 }
             }
+            int ss = 0;
+            for (int s : sizes) {
+                ss += s;
+            }
 
             writer.println(sizes.size());
             for (int s : sizes) {
                 writer.print(s + " ");
             }
             writer.println();
-            for (int i = 0; i < (sum + k) / 2; i++) {
+            for (int i = 0; i < ss / 2; i++) {
                 int ix = Math.abs(new Random(102).nextInt()) % ids.size();
                 writer.print(ids.get(ix));
                 writer.print(' ');

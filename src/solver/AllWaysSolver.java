@@ -105,7 +105,9 @@ public class AllWaysSolver {
 
 //        System.out.println("from distance to");
 //        startGraph.state.distanceTo(bestState, true);
-
+//        for (Pair e : bestState.edges) {
+//            System.out.println(e);
+//        }
         List<DCJ> wayToBest = wayToBestGlue(startGraph.state, bestState);
 //        System.err.println("size of list is " + wayToBest.size());
 //        System.err.println("size in hashsets is " + startGraph.state.distanceTo(bestState, false));

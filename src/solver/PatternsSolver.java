@@ -22,7 +22,8 @@ public class PatternsSolver {
         startDistances = new ArrayList<>();
         sol = new AllWaysSolver(startGraph);
         for (State state : allBestStates) {
-            startDistances.add(sol.wayToBestGlue(startGraph.state, state).size());
+            int x = sol.wayToBestGlue(startGraph.state, state).size();
+            startDistances.add(x);
         }
         System.out.println("startDistances are");
         System.out.println(startDistances);
@@ -42,13 +43,15 @@ public class PatternsSolver {
 //    }
 
     public void solve(int bestAnswer) {
-        Polygon specialPolygon = maxSizePolygon();
+        Polygon specialPolygon = maxSizeOddPolygon();
         Graph graph = startGraph.copy();
         helper(graph, specialPolygon, 0, new ArrayList<>(), bestAnswer);
     }
 
     private void helper(Graph graph, Polygon specialPolygon, int depth, List<DCJ> opers, int bestAnswer) {
         List<DCJ> potentialDCJs = potentialDCJs(graph, specialPolygon);
+//        System.out.println("depth = " + depth);
+//        System.out.println(potentialDCJs);
         if (potentialDCJs.size() == 0) {
 //            System.out.println("after " + depth + " steps distances are");
 //            List<Integer> newDistances = new ArrayList<>();
@@ -61,11 +64,13 @@ public class PatternsSolver {
 //                }
 //            }
 //            System.out.println(newDistances);
+//            System.out.println("then");
             AllWaysSolver solver = new AllWaysSolver(graph);
-            System.out.println();
+//            System.out.println();
             System.out.println(solver.solve().size() + depth);
             return;
         } else {
+//            System.out.println("else");
             if (depth >= bestAnswer) {
                 System.out.print("-");
                 return;
@@ -170,6 +175,7 @@ public class PatternsSolver {
                 continue;
             }
             for (int j = i + 1; j < specialSizePolygon.size; j += add) {
+//                System.out.println(i + " " + j);
                 secondToCut = differentPolygonsPair(graph.state.edges, specialSizePolygon, j);
                 if (secondToCut != null) {
                     List<Pair> toCut = new ArrayList<>();
@@ -177,8 +183,16 @@ public class PatternsSolver {
                     toCut.add(secondToCut);
 
                     List<Pair> toGlue = new ArrayList<>();
-                    toGlue.add(new Pair(firstToCut.first, secondToCut.first));
-                    toGlue.add(new Pair(firstToCut.second, secondToCut.second));
+                    if (firstToCut.first.polygonId == specialSizePolygon.id && secondToCut.first.polygonId == specialSizePolygon.id ||
+                            firstToCut.second.polygonId == specialSizePolygon.id && secondToCut.second.polygonId == specialSizePolygon.id) {
+                        toGlue.add(new Pair(firstToCut.first, secondToCut.first));
+                        toGlue.add(new Pair(firstToCut.second, secondToCut.second));
+                    }
+                    if (firstToCut.first.polygonId == specialSizePolygon.id && secondToCut.second.polygonId == specialSizePolygon.id ||
+                            firstToCut.second.polygonId == specialSizePolygon.id && secondToCut.first.polygonId == specialSizePolygon.id) {
+                        toGlue.add(new Pair(firstToCut.first, secondToCut.second));
+                        toGlue.add(new Pair(firstToCut.second, secondToCut.first));
+                    }
 
                     answer.add(new DCJ(toCut, toGlue));
                 }
@@ -197,7 +211,8 @@ public class PatternsSolver {
                     return pair;
                 }
                 if (pair.second.edgeId == index && pair.second.polygonId == polygon.id) {
-                    return new Pair(pair.second, pair.first);
+                    return pair;
+//                    return new Pair(pair.second, pair.first);
                 }
             }
         }
