@@ -1,10 +1,7 @@
 package main;
 
 import graph.*;
-import solver.AllWaysSolver;
-import solver.DCJ;
-import solver.PatternsSolver;
-import solver.State;
+import solver.*;
 import utils.Pair;
 
 import java.io.File;
@@ -73,8 +70,25 @@ public class Main {
             int ans = allWaysSolver.solve().size();
             System.out.println("all ways answer = " + ans);
 
-            PatternsSolver solver = new PatternsSolver(graph);
-            solver.solve(ans);
+//            PatternsSolver solver = new PatternsSolver(graph);
+//            solver.solve(ans);
+
+            EvenPolygonsSolver evenPolygonsSolver = new EvenPolygonsSolver(graph);
+//            evenPolygonsSolver.findPath(0);
+            for (List<Pair> path : evenPolygonsSolver.findPath(0)) {
+                for (int i = 0; i < path.size(); i += 2) {
+                    List<Pair> toCut = path.subList(i, i + 2);
+                    List<Pair> toGlue = new ArrayList<>();
+                    toGlue.add(new Pair(toCut.get(0).first, toCut.get(1).first));
+                    toGlue.add(new Pair(toCut.get(0).second, toCut.get(1).second));
+                    DCJ dcj = new DCJ(toCut, toGlue);
+                    graph.doDCJ(dcj);
+                    AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
+                    int ansNew = allWaysSolverNew.solve().size();
+                    System.out.println("all ways answer after = " + ansNew);
+                }
+            }
+
 //            System.out.println("Before dcj");
 //            for (Polygon polygon : graph.polygons) {
 //                System.out.println("Polygon " + polygon.id + ":");

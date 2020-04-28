@@ -36,4 +36,5 @@ public class Edge {
 
         return Integer.compare(edge1.edgeId, edge2.edgeId);
     };
+
 }

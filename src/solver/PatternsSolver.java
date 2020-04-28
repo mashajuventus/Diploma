@@ -1,14 +1,11 @@
 package solver;
 
-import graph.Edge;
 import graph.Graph;
 import graph.Polygon;
 import utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.IntFunction;
 
 public class PatternsSolver {
     public Graph startGraph;
@@ -25,8 +22,8 @@ public class PatternsSolver {
             int x = sol.wayToBestGlue(startGraph.state, state).size();
             startDistances.add(x);
         }
-        System.out.println("startDistances are");
-        System.out.println(startDistances);
+//        System.out.println("startDistances are");
+//        System.out.println(startDistances);
     }
 
 //    public <T> T argmax(List<T> ts, Function<T, Integer> func) {
@@ -43,7 +40,7 @@ public class PatternsSolver {
 //    }
 
     public void solve(int bestAnswer) {
-        Polygon specialPolygon = maxSizeOddPolygon();
+        Polygon specialPolygon = maxSizeEvenPolygon();
         Graph graph = startGraph.copy();
         helper(graph, specialPolygon, 0, new ArrayList<>(), bestAnswer);
     }

@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f901acf-0d94-416f-9ac7-ac437fa087d0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graph_building" beforeDir="false" afterPath="$PROJECT_DIR$/graph_building" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solver/AllWaysSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver/AllWaysSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/polygons" beforeDir="false" afterPath="$PROJECT_DIR$/polygons" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graph/Edge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graph/Edge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graph/Polygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graph/Polygon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/solver/PatternsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver/PatternsSolver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Generator.java" afterDir="false" />
     </list>
@@ -30,10 +34,11 @@
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1584557377201" />
@@ -46,6 +51,9 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -150,13 +158,18 @@
       <workItem from="1585988024553" duration="15334000" />
       <workItem from="1586097015027" duration="5481000" />
       <workItem from="1586241308762" duration="5502000" />
+      <workItem from="1587978499497" duration="22827000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="121" y="0" key="#Project_Structure" timestamp="1587978527852">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="121" y="0" key="#Project_Structure/0.0.1280.680@0.0.1280.680" timestamp="1587978527852" />
     <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586101001620">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -169,38 +182,38 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="492" y="233" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1280.680@0.0.1280.680" timestamp="1585989285215" />
-    <state width="415" height="553" key="GridCell.Tab.0.bottom" timestamp="1586247876333">
+    <state width="358" height="553" key="GridCell.Tab.0.bottom" timestamp="1588014160665">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="415" height="553" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1586247876333" />
-    <state width="415" height="553" key="GridCell.Tab.0.center" timestamp="1586247876333">
+    <state width="358" height="553" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588014160665" />
+    <state width="358" height="553" key="GridCell.Tab.0.center" timestamp="1588014160665">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="415" height="553" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1586247876333" />
-    <state width="415" height="553" key="GridCell.Tab.0.left" timestamp="1586247876333">
+    <state width="358" height="553" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1588014160665" />
+    <state width="358" height="553" key="GridCell.Tab.0.left" timestamp="1588014160665">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="415" height="553" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1586247876333" />
-    <state width="415" height="553" key="GridCell.Tab.0.right" timestamp="1586247876333">
+    <state width="358" height="553" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1588014160665" />
+    <state width="358" height="553" key="GridCell.Tab.0.right" timestamp="1588014160665">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="415" height="553" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1586247876333" />
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1586007693723">
+    <state width="358" height="553" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1588014160665" />
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1588014025557">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1586007693723" />
-    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1586007693723">
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588014025557" />
+    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1588014025557">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1586007693723" />
-    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1586007693723">
+    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1588014025557" />
+    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1588014025557">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1586007693723" />
-    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1586007693723">
+    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1588014025557" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1588014025557">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1586007693723" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1588014025557" />
     <state x="348" y="168" key="com.intellij.ide.util.TipDialog" timestamp="1586241310741">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -209,21 +222,5 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1586003344427" />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>

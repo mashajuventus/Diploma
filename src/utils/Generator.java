@@ -15,7 +15,7 @@ public class Generator {
             int alr = 0;
             List<Integer> sizes = new ArrayList<>();
             for (int i = 0; i < cnt - 1; i++) {
-                int n = Math.abs(new Random(i + 100).nextInt()) % 7 + 3;
+                int n = 2 * (Math.abs(new Random(i + 100).nextInt()) % 4) + 2;
                 alr += n;
                 sizes.add(n);
             }

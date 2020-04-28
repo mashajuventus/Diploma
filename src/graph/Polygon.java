@@ -14,7 +14,12 @@ public class Polygon {
         mainVertex = new Vertex(0, id);
         genPolygon();
     }
-    
+
+    public Edge nextEdge(Edge e) {
+        assert e.polygonId == id;
+        return new Edge(id, mainVertex.moveToInPolygon(e.edgeId).id);
+    }
+
     private void genPolygon() {
         Vertex prevVertex = mainVertex;
         for (int v = 1; v < size; v++) {
