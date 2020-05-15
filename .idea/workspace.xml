@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f901acf-0d94-416f-9ac7-ac437fa087d0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graph_building" beforeDir="false" afterPath="$PROJECT_DIR$/graph_building" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/polygons" beforeDir="false" afterPath="$PROJECT_DIR$/polygons" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graph/Edge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graph/Edge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graph/Polygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/graph/Polygon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java/main/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/java/solver/EvenPolygonsSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java/solver/EvenPolygonsSolver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solver/PatternsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver/PatternsSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/Generator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Generator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/solver/EvenPolygonsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver/EvenPolygonsSolver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +156,9 @@
       <workItem from="1585988024553" duration="15334000" />
       <workItem from="1586097015027" duration="5481000" />
       <workItem from="1586241308762" duration="5502000" />
-      <workItem from="1587978499497" duration="22827000" />
+      <workItem from="1587978499497" duration="34368000" />
+      <workItem from="1589186531849" duration="3489000" />
+      <workItem from="1589559333375" duration="16542000" />
     </task>
     <servers />
   </component>
@@ -182,38 +182,38 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="492" y="233" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1280.680@0.0.1280.680" timestamp="1585989285215" />
-    <state width="358" height="553" key="GridCell.Tab.0.bottom" timestamp="1588014160665">
+    <state width="355" height="553" key="GridCell.Tab.0.bottom" timestamp="1589576105082">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="358" height="553" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588014160665" />
-    <state width="358" height="553" key="GridCell.Tab.0.center" timestamp="1588014160665">
+    <state width="355" height="553" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1589576105082" />
+    <state width="355" height="553" key="GridCell.Tab.0.center" timestamp="1589576105082">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="358" height="553" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1588014160665" />
-    <state width="358" height="553" key="GridCell.Tab.0.left" timestamp="1588014160665">
+    <state width="355" height="553" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1589576105082" />
+    <state width="355" height="553" key="GridCell.Tab.0.left" timestamp="1589576105082">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="358" height="553" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1588014160665" />
-    <state width="358" height="553" key="GridCell.Tab.0.right" timestamp="1588014160665">
+    <state width="355" height="553" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1589576105082" />
+    <state width="355" height="553" key="GridCell.Tab.0.right" timestamp="1589576105082">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="358" height="553" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1588014160665" />
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1588014025557">
+    <state width="355" height="553" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1589576105082" />
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1588162601476">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588014025557" />
-    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1588014025557">
+    <state width="1237" height="204" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1588162601476" />
+    <state width="1237" height="204" key="GridCell.Tab.1.center" timestamp="1588162601476">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1588014025557" />
-    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1588014025557">
+    <state width="1237" height="204" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1588162601476" />
+    <state width="1237" height="204" key="GridCell.Tab.1.left" timestamp="1588162601476">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1588014025557" />
-    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1588014025557">
+    <state width="1237" height="204" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1588162601476" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right" timestamp="1588162601476">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1588014025557" />
+    <state width="1237" height="204" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1588162601476" />
     <state x="348" y="168" key="com.intellij.ide.util.TipDialog" timestamp="1586241310741">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

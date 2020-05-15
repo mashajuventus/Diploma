@@ -67,16 +67,18 @@ public class Main {
             }
 
             AllWaysSolver allWaysSolver = new AllWaysSolver(graph);
-            int ans = allWaysSolver.solve().size();
+            List<DCJ> p = allWaysSolver.solve();
+            int ans = p.size();
+//            System.out.println(p);
             System.out.println("all ways answer = " + ans);
 
 //            PatternsSolver solver = new PatternsSolver(graph);
 //            solver.solve(ans);
 
             EvenPolygonsSolver evenPolygonsSolver = new EvenPolygonsSolver(graph);
-//            evenPolygonsSolver.findPath(0);
-            for (List<Pair> path : evenPolygonsSolver.findPath(0)) {
-                for (int i = 0; i < path.size(); i += 2) {
+//            evenPolygonsSolver.findParityPaths(0);
+            for (List<Pair> path : evenPolygonsSolver.findParityPaths()) {
+                for (int i = 0; i < path.size() - 1; i += 2) {
                     List<Pair> toCut = path.subList(i, i + 2);
                     List<Pair> toGlue = new ArrayList<>();
                     toGlue.add(new Pair(toCut.get(0).first, toCut.get(1).first));
@@ -85,9 +87,52 @@ public class Main {
                     graph.doDCJ(dcj);
                     AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
                     int ansNew = allWaysSolverNew.solve().size();
-                    System.out.println("all ways answer after = " + ansNew);
+                    System.out.println("all ways after path part go = " + ansNew);
                 }
             }
+//            System.out.println("------------------------------");
+//            EvenPolygonsSolver newEvenPolygonsSolver = new EvenPolygonsSolver(graph);
+//            evenPolygonsSolver.findParityPaths(1);
+//            for (List<Pair> path : newEvenPolygonsSolver.findParityPaths(1)) {
+//                List<DCJ> doneDcjs = new ArrayList<>();
+//                for (int i = 0; i < path.size() - 1; i += 2) {
+//                    List<Pair> toCut = path.subList(i, i + 2);
+//                    List<Pair> toGlue = new ArrayList<>();
+//                    toGlue.add(new Pair(toCut.get(0).first, toCut.get(1).first));
+//                    toGlue.add(new Pair(toCut.get(0).second, toCut.get(1).second));
+//                    DCJ dcj = new DCJ(toCut, toGlue);
+//                    System.out.println("dcj = " + dcj);
+//                    doneDcjs.add(dcj);
+//                    graph.doDCJ(dcj);
+//                    AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
+//                    int ansNew = allWaysSolverNew.solve().size();
+//                    System.out.println("after one of first = " + ansNew);
+//                }
+//
+//                for (int i = doneDcjs.size() - 1; i >= 0; i--) {
+//                    graph.undoDCJ(doneDcjs.get(i));
+//                }
+//
+//                doneDcjs = new ArrayList<>();
+//                for (int i = 1; i < path.size(); i += 2) {
+//                    List<Pair> toCut = path.subList(i, i + 2);
+//                    List<Pair> toGlue = new ArrayList<>();
+//                    toGlue.add(new Pair(toCut.get(0).first, toCut.get(1).first));
+//                    toGlue.add(new Pair(toCut.get(0).second, toCut.get(1).second));
+//                    DCJ dcj = new DCJ(toCut, toGlue);
+//                    System.out.println("dcj = " + dcj);
+//                    doneDcjs.add(dcj);
+//                    graph.doDCJ(dcj);
+//                    AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
+//                    int ansNew = allWaysSolverNew.solve().size();
+//                    System.out.println("after one of second = " + ansNew);
+//                }
+//
+//                for (int i = doneDcjs.size() - 1; i >= 0; i--) {
+//                    graph.undoDCJ(doneDcjs.get(i));
+//                }
+//                System.out.println("--------------------------");
+//            }
 
 //            System.out.println("Before dcj");
 //            for (Polygon polygon : graph.polygons) {
