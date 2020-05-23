@@ -30,19 +30,6 @@ public class Graph {
         return new Graph(this.polygons, this.state);
     }
 
-//    public void test(DCJ dcj) {
-//        List<Pair> state = new ArrayList<>(this.state.edges);
-//        System.out.println(state);
-//        this.doDCJ(dcj);
-//        List<Pair> state1 = new ArrayList<>(this.state.edges);
-//        this.undoDCJ(dcj);
-//        List<Pair> state2 = new ArrayList<>(this.state.edges);
-//        System.out.println(state2);
-//        System.out.println(State.equalsTo(state, state));
-//        System.out.println(State.equalsTo(state, state1));
-//        System.out.println(State.equalsTo(state, state2));
-//    }
-
     public String toString(int shift) {
         StringBuilder builder = new StringBuilder();
         StringBuilder blankShift = new StringBuilder();
@@ -174,7 +161,9 @@ public class Graph {
         // for every polygon we have all themselves gluings
         List<List<List<Pair>>> gluingForEvenPolygons = new ArrayList<>();
         for (List<Edge> evenPolygon : evenPolygons) {
-            gluingForEvenPolygons.add(genEvenPolygons(evenPolygon));
+            List<List<Pair>> p = genEvenPolygons(evenPolygon);
+            System.out.println("one size = " + p.size());
+            gluingForEvenPolygons.add(p);
         }
 
         List<List<List<Pair>>> gluingsForOddPolygonPairs = new ArrayList<>();
@@ -200,20 +189,72 @@ public class Graph {
             polSizes.add(onePolygon.size());
         }
         List<List<Integer>> whichGluingForEveryPolygons = genAllChoiceOfGluings(polSizes);
-
+        int l = 0;
         for (List<Integer> indices : whichGluingForEveryPolygons) {
+            if (l % 50000 == 0) {
+                System.out.println(l + " ops");
+            }
             List<Pair> oneGluing = new ArrayList<>();
             for (int i = 0; i < indices.size(); i++) {
                 int indOfPol = indices.get(i);
                 oneGluing.addAll(gluingsForOddAndEven.get(i).get(indOfPol));
             }
+            l++;
 //            System.out.println();
 //            System.out.println(oneGluing);
 //            System.out.println();
             answer.add(new State(oneGluing));
         }
 //        System.err.println(answer.size() + " -- all best gluings");
+        System.out.println(answer.size());
         return answer;
+    }
+
+    public List<List<List<Pair>>> yeildBestStates() {
+        List<State> answer = new ArrayList<>();
+        List<List<Edge>> oddPolygons = new ArrayList<>();
+        List<List<Edge>> evenPolygons = new ArrayList<>();
+
+        for (int i = 0; i < polygons.size(); i++) {
+            List<Edge> edges = new ArrayList<>();
+            for (int j = 0; j < polygons.get(i).size; j++) {
+                edges.add(new Edge(i, j));
+            }
+            if (polygons.get(i).size % 2 == 0) {
+                evenPolygons.add(edges);
+            } else {
+                oddPolygons.add(edges);
+            }
+        }
+
+
+        // for every polygon we have all themselves gluings
+        List<List<List<Pair>>> gluingForEvenPolygons = new ArrayList<>();
+        for (List<Edge> evenPolygon : evenPolygons) {
+            List<List<Pair>> p = genEvenPolygons(evenPolygon);
+//            System.out.println("one size = " + p.size());
+            gluingForEvenPolygons.add(p);
+        }
+
+        List<List<List<Pair>>> gluingsForOddPolygonPairs = new ArrayList<>();
+        List<List<Integer>> indicesOfOddPairs = genAllOddPairs(oddPolygons.size());
+        for (int i = 0; i < oddPolygons.size() / 2; i++) {
+            gluingsForOddPolygonPairs.add(new ArrayList<>());
+        }
+
+        for (List<Integer> indices : indicesOfOddPairs) {
+            for (int fi = 0; fi < indices.size(); fi += 2) {
+                int si = fi + 1;
+                int pol1ind = indices.get(fi);
+                int pol2ind = indices.get(si);
+                gluingsForOddPolygonPairs.get(fi / 2).addAll(genOddPolygons(oddPolygons.get(pol1ind), oddPolygons.get(pol2ind)));
+            }
+        }
+
+        List<List<List<Pair>>> gluingsForOddAndEven = new ArrayList<>(gluingForEvenPolygons);
+        gluingsForOddAndEven.addAll(gluingsForOddPolygonPairs);
+
+        return gluingsForOddAndEven;
     }
 
     public List<List<Integer>> genAllChoiceOfGluings(List<Integer> sizes) {
@@ -394,4 +435,37 @@ public class Graph {
 //        return answer;
     }
 
+    public List<List<Vertex>> vertexClasses() {
+        List<List<Vertex>> classes = new ArrayList<>();
+        for (Polygon polygon : polygons) {
+            List<Vertex> vertices = polygon.getVertices();
+            for (Vertex vertex : vertices) {
+                vertex.id3d = -1;
+            }
+        }
+//        System.out.println("    here");
+        run: while (true) {
+            for (Polygon polygon : polygons) {
+                List<Vertex> vertices = polygon.getVertices();
+                for (Vertex vertex : vertices) {
+                    if (vertex.id3d == -1) {
+                        List<Vertex> newClass = new ArrayList<>();
+                        Vertex start = vertex;
+//                        newClass.add(start);
+                        do {
+                            start.id3d = classes.size();
+                            start = start.nextInClass;
+                            newClass.add(start);
+                        } while (start != vertex);
+//                        answer++;
+                        classes.add(newClass);
+//                        System.out.println("    added class " + newClass);
+                        continue run;
+                    }
+                }
+            }
+            break;
+        }
+        return classes;
+    }
 }

@@ -24,7 +24,7 @@ public class Vertex {
     }
 
     public String toString() {
-        return polygonId + "." + id;
+        return "p" + polygonId + "v" + id;
     }
 
     public String toShow(int shift) {

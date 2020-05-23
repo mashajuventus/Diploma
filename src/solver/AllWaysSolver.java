@@ -14,13 +14,16 @@ public class AllWaysSolver {
     public List<List<DCJ>> bestOperations;
     public int already = 0;
     public int bestVerticesResult;
+    public long closestBestStates = 0;
+    public List<State> bestStates = new ArrayList<>();
+    public boolean isFirst = true;
 
     public AllWaysSolver(Graph graph) {
         this.startGraph = graph;
         maxVerticesCount = -1;
         bestHeight = Integer.MAX_VALUE;
         bestOperations = new ArrayList<>();
-        this.bestVerticesResult = graph.bestAnswer();
+        bestVerticesResult = graph.bestAnswer();
 //        System.out.println("bestVerticesPossible is " + bestVerticesResult);
     }
 
@@ -80,38 +83,77 @@ public class AllWaysSolver {
     }
 
     public List<DCJ> solve() {
-        List<State> bestStates = startGraph.genBestStates();
+//        List<State> bestStates = startGraph.genBestStates();
 
         // find one closest state
+        closestBestStates = 0;
         int bestDistance = Integer.MAX_VALUE;
         State bestState = null;
+        List<State> newBestStates = new ArrayList<>();
 
-        for (State state : bestStates) {
+        if (isFirst) {
+//            System.out.println("first time");
+            isFirst = false;
+            // from genBestStates
+            List<List<List<Pair>>> gluingsForOddAndEven = startGraph.yeildBestStates();
+            List<Integer> polSizes = new ArrayList<>();
+            for (List<List<Pair>> onePolygon : gluingsForOddAndEven) {
+                polSizes.add(onePolygon.size());
+            }
+            List<List<Integer>> whichGluingForEveryPolygons = startGraph.genAllChoiceOfGluings(polSizes);
+//            int l = 0;
+            for (List<Integer> indices : whichGluingForEveryPolygons) {
+//                if (l % 50000 == 0) {
+//                    System.out.println(l + " ops");
+//                }
+                List<Pair> oneGluing = new ArrayList<>();
+                for (int i = 0; i < indices.size(); i++) {
+                    int indOfPol = indices.get(i);
+                    oneGluing.addAll(gluingsForOddAndEven.get(i).get(indOfPol));
+                }
+//                l++;
+//            System.out.println();
+//            System.out.println(oneGluing);
+//            System.out.println();
+                State state = new State(oneGluing);
+//            answer.add(new State(oneGluing));
+//        }
+
+//        for (State state : startGraph.genBestStates()) {
 //            int thisStateDistance = startGraph.state.distanceTo(state, false);
-            List<DCJ> way = wayToBestGlue(startGraph.state, state);
-            int thisStateDistance = way.size();
-//            System.out.println(thisStateDistance);
-            if (thisStateDistance < bestDistance) {
-                bestDistance = thisStateDistance;
-                bestState = state;
+                List<DCJ> way = wayToBestGlue(startGraph.state, state);
+                int thisStateDistance = way.size();
+                if (thisStateDistance < bestDistance) {
+                    bestDistance = thisStateDistance;
+                    bestState = state;
+                    closestBestStates = 0;
+                    newBestStates = new ArrayList<>();
+                }
+                if (thisStateDistance == bestDistance) {
+                    closestBestStates++;
+                    newBestStates.add(state);
+                }
+            }
+        } else {
+//            System.out.println("only from previous");
+            for (State state : bestStates) {
+//            int thisStateDistance = startGraph.state.distanceTo(state, false);
+                List<DCJ> way = wayToBestGlue(startGraph.state, state);
+                int thisStateDistance = way.size();
+                if (thisStateDistance < bestDistance) {
+                    bestDistance = thisStateDistance;
+                    bestState = state;
+                    closestBestStates = 0;
+                    newBestStates = new ArrayList<>();
+                }
+                if (thisStateDistance == bestDistance) {
+                    closestBestStates++;
+                    newBestStates.add(state);
+                }
             }
         }
-
-//        System.err.println("result best state is");
-//        for (Pair pair : bestState.edges) {
-//            System.err.println("   " + pair.first + " + " + pair.second);
-//        }
-//        System.err.println("");
-
-//        System.out.println("from distance to");
-//        startGraph.state.distanceTo(bestState, true);
-//        for (Pair e : bestState.edges) {
-//            System.out.println(e);
-//        }
-        List<DCJ> wayToBest = wayToBestGlue(startGraph.state, bestState);
-//        System.err.println("size of list is " + wayToBest.size());
-//        System.err.println("size in hashsets is " + startGraph.state.distanceTo(bestState, false));
-        return wayToBest;
+        bestStates = newBestStates;
+        return wayToBestGlue(startGraph.state, bestState);
     }
 
     public List<DCJ> wayToBestGlue(State currentState, State bestState) {

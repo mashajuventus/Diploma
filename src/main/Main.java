@@ -7,12 +7,41 @@ import utils.Pair;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+//        int hhh = 20;
+//
+//        long[] cats = new long[hhh];
+//        for (int n = 0; n < hhh; n++) {
+//            BigInteger num = BigInteger.valueOf(1);
+//            for (int i = n + 1; i <= 2 * n; i++) {
+//                num = num.multiply(BigInteger.valueOf(i));
+//            }
+//            for (int i = 1; i <= n; i++) {
+//                num = num.divide(BigInteger.valueOf(i));
+//            }
+//            num = num.divide(BigInteger.valueOf(n + 1));
+//            cats[n] = num.longValue();
+//            System.out.println(cats[n]);
+//        }
+//
+//        for (int i = 0; i < hhh - 1; i++) {
+//            System.out.println(1.0 * cats[i + 1] / cats[i]);
+////            System.out.print(" ");
+//        }
+////        System.out.println();
+//        System.out.println("-----------------");
+//        for (int i = 0; i < hhh - 2; i++) {
+//            System.out.println(1.0 * cats[i + 2] / cats[i]);
+////            System.out.print(" ");
+//        }
+//        System.out.println();
+
         try (Scanner scannerGraph = new Scanner(new File("graph_building"))) {
             int cnt = scannerGraph.nextInt();
             int cntEdges = 0;
@@ -30,6 +59,7 @@ public class Main {
                 Pair pair = new Pair(e0, e1);
                 graph.glueEdges(pair);
             }
+//            System.out.println("end creating");
 
             // all ways solver checking -- generate all best states having graph structure
             // then find the distances between start gluing and each best one
@@ -65,12 +95,15 @@ public class Main {
 //                State afterDCJ = new State(graph.state.edges);
 //                System.out.println("after dcj distance is " + beforeSCJ.distanceTo(afterDCJ));
             }
+//            System.out.println("end special dcjs");
 
             AllWaysSolver allWaysSolver = new AllWaysSolver(graph);
             List<DCJ> p = allWaysSolver.solve();
+            System.out.println("closest states count = " + allWaysSolver.closestBestStates);
             int ans = p.size();
 //            System.out.println(p);
             System.out.println("all ways answer = " + ans);
+            System.out.println("vertices = " + allWaysSolver.startGraph.vertexClasses());
 
 //            PatternsSolver solver = new PatternsSolver(graph);
 //            solver.solve(ans);
@@ -84,13 +117,27 @@ public class Main {
                     toGlue.add(new Pair(toCut.get(0).first, toCut.get(1).first));
                     toGlue.add(new Pair(toCut.get(0).second, toCut.get(1).second));
                     DCJ dcj = new DCJ(toCut, toGlue);
-                    graph.doDCJ(dcj);
-                    AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
-                    int ansNew = allWaysSolverNew.solve().size();
+                    allWaysSolver.startGraph.doDCJ(dcj);
+                    int ansNew = allWaysSolver.solve().size();
+                    System.out.println("closest states count = " + allWaysSolver.closestBestStates);
+//                    graph.doDCJ(dcj);
+//                    AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
+//                    int ansNew = allWaysSolverNew.solve().size();
+//                    System.out.println("closest states count = " + allWaysSolverNew.closestBestStates);
                     System.out.println("all ways after path part go = " + ansNew);
+                    System.out.println("vertices = " + allWaysSolver.startGraph.vertexClasses());
                 }
             }
+//            System.out.println("after paths graph type is " + evenPolygonsSolver.graphType());
+//            AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
+//            int ansNew = allWaysSolverNew.solve().size();
+//            System.out.println("all ways after all paths = " + ansNew);
+            EvenPolygonsSolver newEven = new EvenPolygonsSolver(allWaysSolver.startGraph);
+            newEven.afterPaths();
+            AllWaysSolver newAll = new AllWaysSolver(newEven.startGraph);
+            System.out.println("to go " + newAll.solve().size());
 //            System.out.println("------------------------------");
+            System.out.println(newEven.startGraph.state.edges);
 //            EvenPolygonsSolver newEvenPolygonsSolver = new EvenPolygonsSolver(graph);
 //            evenPolygonsSolver.findParityPaths(1);
 //            for (List<Pair> path : newEvenPolygonsSolver.findParityPaths(1)) {
