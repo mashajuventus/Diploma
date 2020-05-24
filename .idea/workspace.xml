@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f901acf-0d94-416f-9ac7-ac437fa087d0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graph_building" beforeDir="false" afterPath="$PROJECT_DIR$/graph_building" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java/main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java/solver/EvenPolygonsSolver$GraphType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java/solver/EvenPolygonsSolver$GraphType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java/solver/EvenPolygonsSolver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java/solver/EvenPolygonsSolver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solver/EvenPolygonsSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver/EvenPolygonsSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/TestGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/TestGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +53,7 @@
       <recent name="C:\All\Education\7_term\Diploma\java" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TestGenerator">
+  <component name="RunManager" selected="Application.Test">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -88,6 +81,20 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.Test" />
+      <module name="java" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -144,9 +151,11 @@
       <item itemvalue="Application.Generator" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.TestGenerator" />
+      <item itemvalue="Application.Test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Test" />
         <item itemvalue="Application.TestGenerator" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Generator" />
@@ -177,7 +186,7 @@
       <workItem from="1589186531849" duration="3489000" />
       <workItem from="1589559333375" duration="20110000" />
       <workItem from="1589801601779" duration="4560000" />
-      <workItem from="1589876549086" duration="89542000" />
+      <workItem from="1589876549086" duration="90321000" />
     </task>
     <servers />
   </component>
@@ -201,22 +210,22 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="492" y="233" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1280.680@0.0.1280.680" timestamp="1585989285215" />
-    <state width="357" height="553" key="GridCell.Tab.0.bottom" timestamp="1590351928167">
+    <state width="357" height="553" key="GridCell.Tab.0.bottom" timestamp="1590352128952">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="357" height="553" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1590351928167" />
-    <state width="357" height="553" key="GridCell.Tab.0.center" timestamp="1590351928167">
+    <state width="357" height="553" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1590352128952" />
+    <state width="357" height="553" key="GridCell.Tab.0.center" timestamp="1590352128952">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="357" height="553" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1590351928167" />
-    <state width="357" height="553" key="GridCell.Tab.0.left" timestamp="1590351928167">
+    <state width="357" height="553" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1590352128952" />
+    <state width="357" height="553" key="GridCell.Tab.0.left" timestamp="1590352128952">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="357" height="553" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1590351928167" />
-    <state width="357" height="553" key="GridCell.Tab.0.right" timestamp="1590351928167">
+    <state width="357" height="553" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1590352128952" />
+    <state width="357" height="553" key="GridCell.Tab.0.right" timestamp="1590352128952">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="357" height="553" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1590351928167" />
+    <state width="357" height="553" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1590352128952" />
     <state width="1237" height="204" key="GridCell.Tab.1.bottom" timestamp="1590010811505">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

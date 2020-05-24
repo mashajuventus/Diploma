@@ -78,7 +78,6 @@ public class EvenPolygonsSolver {
                 border.add(belongsTo);
                 gluedToIds.add((belongsTo.first.equals(currentEdge) ? belongsTo.second.polygonId : belongsTo.first.polygonId));
             }
-//            System.out.println("gluedToIds = " + gluedToIds);
 
             boolean hasChange = true;
             while (hasChange) {
@@ -139,7 +138,6 @@ public class EvenPolygonsSolver {
             }
         }
 
-        System.out.println(answer);
         return answer;
     }
 
