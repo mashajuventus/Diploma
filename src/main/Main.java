@@ -97,47 +97,51 @@ public class Main {
             }
 //            System.out.println("end special dcjs");
 
-            AllWaysSolver allWaysSolver = new AllWaysSolver(graph);
-            List<DCJ> p = allWaysSolver.solve();
-            System.out.println("closest states count = " + allWaysSolver.closestBestStates);
-            int ans = p.size();
-//            System.out.println(p);
-            System.out.println("all ways answer = " + ans);
-            System.out.println("vertices = " + allWaysSolver.startGraph.vertexClasses());
+//            AllWaysSolver allWaysSolver = new AllWaysSolver(graph.copy());
+//            List<DCJ> p = allWaysSolver.solve();
+////            System.out.println("closest states count = " + allWaysSolver.closestBestStates);
+//            int ans = p.size();
+////            System.out.println(p);
+//            System.out.println("all ways answer = " + ans);
+//            System.out.println("vertices = " + allWaysSolver.startGraph.vertexClasses());
 
 //            PatternsSolver solver = new PatternsSolver(graph);
 //            solver.solve(ans);
 
-            EvenPolygonsSolver evenPolygonsSolver = new EvenPolygonsSolver(graph);
+            EvenPolygonsSolver evenPolygonsSolver = new EvenPolygonsSolver(graph.copy());
+            List<DCJ> sol = evenPolygonsSolver.solve();
+            evenPolygonsSolver.checkIsBest();
+            System.out.println("even polygon answer = " + sol.size());
+//            System.out.println(sol);
 //            evenPolygonsSolver.findParityPaths(0);
-            for (List<Pair> path : evenPolygonsSolver.findParityPaths()) {
-                for (int i = 0; i < path.size() - 1; i += 2) {
-                    List<Pair> toCut = path.subList(i, i + 2);
-                    List<Pair> toGlue = new ArrayList<>();
-                    toGlue.add(new Pair(toCut.get(0).first, toCut.get(1).first));
-                    toGlue.add(new Pair(toCut.get(0).second, toCut.get(1).second));
-                    DCJ dcj = new DCJ(toCut, toGlue);
-                    allWaysSolver.startGraph.doDCJ(dcj);
-                    int ansNew = allWaysSolver.solve().size();
-                    System.out.println("closest states count = " + allWaysSolver.closestBestStates);
-//                    graph.doDCJ(dcj);
-//                    AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
-//                    int ansNew = allWaysSolverNew.solve().size();
-//                    System.out.println("closest states count = " + allWaysSolverNew.closestBestStates);
-                    System.out.println("all ways after path part go = " + ansNew);
-                    System.out.println("vertices = " + allWaysSolver.startGraph.vertexClasses());
-                }
-            }
+//            for (List<Pair> path : evenPolygonsSolver.findParityPaths()) {
+//                for (int i = 0; i < path.size() - 1; i += 2) {
+//                    List<Pair> toCut = path.subList(i, i + 2);
+//                    List<Pair> toGlue = new ArrayList<>();
+//                    toGlue.add(new Pair(toCut.get(0).first, toCut.get(1).first));
+//                    toGlue.add(new Pair(toCut.get(0).second, toCut.get(1).second));
+//                    DCJ dcj = new DCJ(toCut, toGlue);
+//                    allWaysSolver.startGraph.doDCJ(dcj);
+//                    int ansNew = allWaysSolver.solve().size();
+//                    System.out.println("closest states count = " + allWaysSolver.closestBestStates);
+////                    graph.doDCJ(dcj);
+////                    AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
+////                    int ansNew = allWaysSolverNew.solve().size();
+////                    System.out.println("closest states count = " + allWaysSolverNew.closestBestStates);
+//                    System.out.println("all ways after path part go = " + ansNew);
+//                    System.out.println("vertices = " + allWaysSolver.startGraph.vertexClasses());
+//                }
+//            }
 //            System.out.println("after paths graph type is " + evenPolygonsSolver.graphType());
 //            AllWaysSolver allWaysSolverNew = new AllWaysSolver(graph);
 //            int ansNew = allWaysSolverNew.solve().size();
 //            System.out.println("all ways after all paths = " + ansNew);
-            EvenPolygonsSolver newEven = new EvenPolygonsSolver(allWaysSolver.startGraph);
-            newEven.afterPaths();
-            AllWaysSolver newAll = new AllWaysSolver(newEven.startGraph);
-            System.out.println("to go " + newAll.solve().size());
-//            System.out.println("------------------------------");
-            System.out.println(newEven.startGraph.state.edges);
+//            EvenPolygonsSolver newEven = new EvenPolygonsSolver(allWaysSolver.startGraph);
+//            newEven.afterPaths();
+//            AllWaysSolver newAll = new AllWaysSolver(newEven.startGraph);
+//            System.out.println("to go " + newAll.solve().size());
+////            System.out.println("------------------------------");
+//            System.out.println(newEven.startGraph.state.edges);
 //            EvenPolygonsSolver newEvenPolygonsSolver = new EvenPolygonsSolver(graph);
 //            evenPolygonsSolver.findParityPaths(1);
 //            for (List<Pair> path : newEvenPolygonsSolver.findParityPaths(1)) {

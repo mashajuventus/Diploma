@@ -27,6 +27,40 @@ public class EvenPolygonsSolver {
         return null;
     }
 
+    public List<DCJ> solve() {
+        List<DCJ> answer = new ArrayList<>();
+
+        List<List<Pair>> paths = findParityPaths();
+        for (List<Pair> path : paths) {
+            for (int i = 0; i < path.size() - 1; i += 2) {
+                List<Pair> toCut = new ArrayList<>();
+                toCut.add(path.get(i));
+                toCut.add(path.get(i + 1));
+
+                List<Pair> toGlue = new ArrayList<>();
+                toGlue.add(new Pair(path.get(i).first, path.get(i + 1).first));
+                toGlue.add(new Pair(path.get(i).second, path.get(i + 1).second));
+
+                DCJ dcj = new DCJ(toCut, toGlue);
+                answer.add(dcj);
+
+                startGraph.doDCJ(dcj);
+            }
+        }
+
+        // DCJs is going in afterPaths()
+        List<DCJ> afterPaths = afterPaths();
+        answer.addAll(afterPaths);
+
+        return answer;
+    }
+
+    public void checkIsBest() {
+        if (startGraph.bestAnswer() != startGraph.calculate3dVertices()) {
+            throw new RuntimeException("state is not the best yet");
+        }
+    }
+
     public List<List<Pair>> findParityPaths() {
         List<List<Pair>> answer = new ArrayList<>();
 
@@ -44,7 +78,7 @@ public class EvenPolygonsSolver {
                 border.add(belongsTo);
                 gluedToIds.add((belongsTo.first.equals(currentEdge) ? belongsTo.second.polygonId : belongsTo.first.polygonId));
             }
-            System.out.println("gluedToIds = " + gluedToIds);
+//            System.out.println("gluedToIds = " + gluedToIds);
 
             boolean hasChange = true;
             while (hasChange) {
@@ -108,19 +142,6 @@ public class EvenPolygonsSolver {
         System.out.println(answer);
         return answer;
     }
-
-//    private List<Pair> shiftPath(List<Pair> path) {
-//        List<Integer> first = new ArrayList<>();
-//        List<Integer> second = new ArrayList<>();
-//
-//        int firstSize = startGraph.polygons.get(path.get(0).first.polygonId).size;
-//        int secondSize = startGraph.polygons.get(path.get(0).second.polygonId).size;
-//
-//        for (Pair pair : path) {
-//            first.add(pair.first.edgeId);
-//            second.add(pair.second.edgeId);
-//        }
-//    }
 
     public GraphType graphType() {
         List<List<Vertex>> vertexClasses = startGraph.vertexClasses();
@@ -275,17 +296,12 @@ public class EvenPolygonsSolver {
     }
 
     public Edge outEdge(Vertex v) {
-//        int maxNum = startGraph.polygons.get(v.polygonId).size - 1;
-//        if (v.id == maxNum) {
-//            return new Edge(v.polygonId, 0);
-//        } else {
-//            return new Edge(v.polygonId, v.id + 1);
-//        }
         return new Edge(v.polygonId, v.id);
     }
 
-    public void afterPaths() {
+    public List<DCJ> afterPaths() {
         int ops = 0;
+        List<DCJ> answer = new ArrayList<>();
         run: while (true) {
             List<List<Vertex>> vertexClasses = startGraph.vertexClasses();
 
@@ -321,6 +337,7 @@ public class EvenPolygonsSolver {
 
                         DCJ dcj = new DCJ(toCut, toGlue);
                         startGraph.doDCJ(dcj);
+                        answer.add(dcj);
                         ops++;
                         continue run;
                     }
@@ -328,7 +345,7 @@ public class EvenPolygonsSolver {
             }
             break;
         }
-        System.out.println("ops done " + ops);
+        return answer;
     }
 
 }
