@@ -14,8 +14,10 @@ import java.util.Scanner;
 
 public class Test {
     public static void main(String[] args) {
-        TestGenerator t = new TestGenerator(6);
+        TestGenerator t = new TestGenerator(12);
         try (Scanner scannerGraph = new Scanner(new File("tests"))) {
+            int oks = 0;
+            int all = 0;
             while (scannerGraph.hasNext()) {
                 int cnt = scannerGraph.nextInt();
                 int cntEdges = 0;
@@ -43,14 +45,18 @@ public class Test {
                     System.out.println(graph.state);
                 }
                 if (allWays == evenPoly) {
-                    System.out.println("OK");
+                    oks++;
                 }
                 if (allWays < evenPoly) {
                     System.out.println("EVEN SOLUTION IS BAD");
                     System.out.println(graph.state);
                 }
-
+                all++;
+                if (all % 1000 == 0) {
+                    System.out.println("OK " + oks + "/" + all);
+                }
             }
+            System.out.println("END: OK " + oks + "/" + all);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
