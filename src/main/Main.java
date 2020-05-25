@@ -101,7 +101,7 @@ public class Main {
 //            List<DCJ> p = allWaysSolver.solve();
 ////            System.out.println("closest states count = " + allWaysSolver.closestBestStates);
 //            int ans = p.size();
-////            System.out.println(p);
+//            System.out.println(p);
 //            System.out.println("all ways answer = " + ans);
 //            System.out.println("vertices = " + allWaysSolver.startGraph.vertexClasses());
 
@@ -109,6 +109,7 @@ public class Main {
 //            solver.solve(ans);
 
             EvenPolygonsSolver evenPolygonsSolver = new EvenPolygonsSolver(graph.copy());
+            System.out.println(evenPolygonsSolver.findParityPaths());
             List<DCJ> sol = evenPolygonsSolver.solve();
             evenPolygonsSolver.checkIsBest();
             System.out.println("even polygon answer = " + sol.size());

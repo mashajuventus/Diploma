@@ -7,7 +7,9 @@ import graph.Vertex;
 import utils.Pair;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static utils.Utils.*;
 
@@ -63,66 +65,78 @@ public class EvenPolygonsSolver {
 
     public List<List<Pair>> findParityPaths() {
         List<List<Pair>> answer = new ArrayList<>();
+        List<List<Pair>> borders = new ArrayList<>();
+        List<List<Integer>> gluedToIds = new ArrayList<>();
 
         for (Polygon polygon : startGraph.polygons) {
-            boolean inMiddle = true;
             List<Edge> thisPolygonEdges = new ArrayList<>();
             for (int i = 0; i < polygon.size; i++) {
                 thisPolygonEdges.add(new Edge(polygon.id, i));
             }
 
             List<Pair> border = new ArrayList<>();
-            List<Integer> gluedToIds = new ArrayList<>();
+            List<Integer> gluedToIdsOne = new ArrayList<>();
             for (Edge currentEdge : thisPolygonEdges) {
                 Pair belongsTo = pairEdge(currentEdge);
                 border.add(belongsTo);
-                gluedToIds.add((belongsTo.first.equals(currentEdge) ? belongsTo.second.polygonId : belongsTo.first.polygonId));
+                gluedToIdsOne.add((belongsTo.first.equals(currentEdge) ? belongsTo.second.polygonId : belongsTo.first.polygonId));
             }
+
+            // shifting
+            for (int i = 0; i < gluedToIdsOne.size(); i++) {
+                if (gluedToIdsOne.get(0).equals(gluedToIdsOne.get(gluedToIdsOne.size() - 1))) {
+
+                    border.add(border.get(0));
+                    border.remove(0);
+
+                    gluedToIdsOne.add(gluedToIdsOne.get(0));
+                    gluedToIdsOne.remove(0);
+                } else {
+                    break;
+                }
+            }
+
+            borders.add(border);
+            gluedToIds.add(gluedToIdsOne);
+        }
+//        System.out.println(borders);
+//        System.out.println(gluedToIds);
+
+        for (int id = 0; id < borders.size(); id++) {
+            List<Pair> border = borders.get(id);
+            List<Integer> gluedToIdsOne = gluedToIds.get(id);
+
+//            System.out.println(id);
+//            System.out.println(border);
+//            System.out.println(gluedToIdsOne);
 
             boolean hasChange = true;
             while (hasChange) {
                 hasChange = false;
-
-                // shifting
-                for (int i = 0; i < gluedToIds.size(); i++) {
-                    if (gluedToIds.get(0).equals(gluedToIds.get(gluedToIds.size() - 1))) {
-
-                        border.add(border.get(0));
-                        border.remove(0);
-
-                        gluedToIds.add(gluedToIds.get(0));
-                        gluedToIds.remove(0);
-                    } else {
-                        break;
-                    }
-                }
-
-                // one big path
-                if (gluedToIds.get(0).equals(gluedToIds.get(gluedToIds.size() - 1))) {
-                    if (gluedToIds.get(0) > polygon.id) {
-                        answer.add(new ArrayList<>(border));
-                    }
-                    break;
-                }
-
                 int start = 0;
-                for (int i = 1; i < gluedToIds.size() + 1; i++) {
-                    int right = (i == gluedToIds.size()) ? 0 : i;
-                    int startId = gluedToIds.get(start);
-                    int rightId = gluedToIds.get(right);
+                for (int i = 1; i < gluedToIdsOne.size() + 1; i++) {
+                    int right = (i == gluedToIdsOne.size()) ? 0 : i;
+                    int startId = gluedToIdsOne.get(start);
+                    int rightId = gluedToIdsOne.get(right);
                     if (rightId != startId) {
+//                        System.out.println("start = " + start);
+//                        System.out.println("right = " + right);
                         if (i - start > 1) {
-                            int left = (start - 1 + gluedToIds.size()) % gluedToIds.size();
-                            int leftId = gluedToIds.get(left);
+//                            System.out.println("  i - start = " + (i - start));
+                            int left = (start - 1 + gluedToIdsOne.size()) % gluedToIdsOne.size();
+                            int leftId = gluedToIdsOne.get(left);
 
-                            if (!inMiddle || leftId == rightId && (i - start) % 2 == 0) {
-                                if (startId > polygon.id) {
+//                            if (leftId == rightId && (i - start) % 2 == 0) {
+                            if ((i - start) % 2 == 0) {
+//                                System.out.println("  this is a path even length");
+                                if (startId > id) {
                                     List<Pair> newPath = border.subList(start, i);
+//                                    System.out.println("added " + newPath);
                                     answer.add(newPath);
                                 }
 
                                 border = removeSublist(border, start, i);
-                                gluedToIds = removeSublist(gluedToIds, start, i);
+                                gluedToIdsOne = removeSublist(gluedToIdsOne, start, i);
 
                                 hasChange = true;
                                 break;
@@ -131,14 +145,261 @@ public class EvenPolygonsSolver {
                         start = i;
                     }
                 }
-                if (!hasChange && inMiddle) {
-                    inMiddle = false;
-                    hasChange = true;
+                if (gluedToIdsOne.size() > 0) {
+                    if (gluedToIdsOne.get(0).equals(gluedToIdsOne.get(gluedToIdsOne.size() - 1))) {
+//                    System.out.println("id = " + id);
+                        if (gluedToIdsOne.get(0) > id) {
+                            List<Pair> found = findShiftedPath(border, borders.get(gluedToIdsOne.get(0)), 0, gluedToIdsOne.size(), id);
+                            if (found.size() > 0) {
+//                            System.out.println("can added");
+                                border = removeSublist(border, 0, gluedToIdsOne.size());
+                                gluedToIdsOne = removeSublist(gluedToIdsOne, 0, gluedToIdsOne.size());
+                                answer.add(found);
+                            } else {
+//                            System.out.println("cannot be here i suppose");
+                            }
+                        }
+                    }
+                }
+            }
+            borders.set(id, new ArrayList<>(border));
+            gluedToIds.set(id, new ArrayList<>(gluedToIdsOne));
+
+//            boolean hasChange = true;
+//            while (hasChange) {
+//                hasChange = false;
+//
+//                // shifting
+//                for (int i = 0; i < gluedToIds.size(); i++) {
+//                    if (gluedToIds.get(0).equals(gluedToIds.get(gluedToIds.size() - 1))) {
+//
+//                        border.add(border.get(0));
+//                        border.remove(0);
+//
+//                        gluedToIds.add(gluedToIds.get(0));
+//                        gluedToIds.remove(0);
+//                    } else {
+//                        break;
+//                    }
+//                }
+//
+//                System.out.println(polygon.id + " id, border = " + border);
+//
+//                if (!inMiddle) {
+//                    for (List<Pair> shiftedAnswer : maybeAnswer) {
+//                        System.out.println("try " + shiftedAnswer);
+//                        System.out.println("we are " + polygon.id);
+//                        List<Pair> shP = new ArrayList<>(shiftedAnswer);
+//                        List<Pair> revShP = new ArrayList<>();
+//                        for (Pair p : shP) {
+//                            revShP.add(0, p);
+//                        }
+//
+//                        int pId = shiftedAnswer.get(0).first.polygonId;
+//                        System.out.println("glued to " + pId);
+//                        for (int i = 0; i <= border.size() - shiftedAnswer.size(); i++) {
+//                            System.out.println("from border = " + border.get(i).first.polygonId);
+//                            if (border.get(i).first.polygonId == pId) {
+//                                System.out.println("it might be " + border.subList(i, i + shiftedAnswer.size()));
+//                                if (listEquals(border.subList(i, i + shiftedAnswer.size()), shP)) {
+//                                    answer.add(shP);
+//                                    maybeAnswer.remove(shiftedAnswer);
+//                                    System.out.println("added " + shP);
+//                                    System.out.println("removed " + shiftedAnswer);
+//                                    break;
+//                                } if (listEquals(border.subList(i, i + shiftedAnswer.size()), revShP)) {
+//                                    answer.add(revShP);
+//                                    maybeAnswer.remove(shiftedAnswer);
+//                                    System.out.println("added " + revShP);
+//                                    System.out.println("removed " + shiftedAnswer);
+//                                    break;
+//                                } else {
+//                                    shP.add(shP.get(0));
+//                                    shP.remove(0);
+//                                    revShP.add(revShP.get(0));
+//                                    revShP.remove(0);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                // one big path
+//                if (gluedToIds.get(0).equals(gluedToIds.get(gluedToIds.size() - 1))) {
+//                    if (gluedToIds.get(0) > polygon.id) {
+//                        // maybe shift is needed
+//                        System.out.println("maybe " + border);
+//                        maybeAnswer.add(new ArrayList<>(border));
+//                    }
+//                    break;
+//                }
+//
+//                int start = 0;
+//                for (int i = 1; i < gluedToIds.size() + 1; i++) {
+//                    int right = (i == gluedToIds.size()) ? 0 : i;
+//                    int startId = gluedToIds.get(start);
+//                    int rightId = gluedToIds.get(right);
+//                    if (rightId != startId) {
+//                        if (i - start > 1) {
+//                            int left = (start - 1 + gluedToIds.size()) % gluedToIds.size();
+//                            int leftId = gluedToIds.get(left);
+//
+//                            if (!inMiddle || leftId == rightId && (i - start) % 2 == 0) {
+//                                if (startId > polygon.id) {
+//                                    List<Pair> newPath = border.subList(start, i);
+//                                    answer.add(newPath);
+//                                }
+//
+//                                border = removeSublist(border, start, i);
+//                                gluedToIds = removeSublist(gluedToIds, start, i);
+//
+//                                hasChange = true;
+//                                break;
+//                            }
+//                        }
+//                        start = i;
+//                    }
+//                }
+////                if (!hasChange && inMiddle) {
+////                    inMiddle = false;
+////                    hasChange = true;
+////                }
+//            }
+        }
+
+//        System.out.println("gluedToIds after " + gluedToIds);
+
+        for (int id = 0; id < borders.size(); id++) {
+            List<Pair> border = borders.get(id);
+            List<Integer> gluedToIdsOne = gluedToIds.get(id);
+
+            // shifting
+            for (int i = 0; i < gluedToIdsOne.size(); i++) {
+                if (gluedToIdsOne.get(0).equals(gluedToIdsOne.get(gluedToIdsOne.size() - 1))) {
+
+                    border.add(border.get(0));
+                    border.remove(0);
+
+                    gluedToIdsOne.add(gluedToIdsOne.get(0));
+                    gluedToIdsOne.remove(0);
+                } else {
+                    break;
+                }
+            }
+
+            borders.set(id, new ArrayList<>(border));
+            gluedToIds.set(id, new ArrayList<>(gluedToIdsOne));
+        }
+
+        for (int id = 0; id < borders.size(); id++) {
+            List<Pair> border = borders.get(id);
+            List<Integer> gluedToIdsOne = gluedToIds.get(id);
+
+            int st = 0;
+            while (st < gluedToIdsOne.size()) {
+                int end = st + 1;
+                while (end < gluedToIdsOne.size() &&
+                        gluedToIdsOne.get(end - 1).equals(gluedToIdsOne.get(st))) {
+                    end++;
+                }
+                if (end - st >= 3) {
+                    // this is path, maybe it already has added
+                    if (id < gluedToIdsOne.get(st)) {
+                        List<Pair> found = findShiftedPath(border, borders.get(gluedToIdsOne.get(st)), st, end, id);
+                        if (found.size() > 0) {
+                            answer.add(found);
+                        }
+
+//                        System.out.println(id + " " + st + " " + end);
+//                        System.out.println("here");
+//                        List<Pair> shiftedPath = border.subList(st, end);
+//                        List<Pair> reversedPath = new ArrayList<>();
+//                        for (Pair p : shiftedPath) {
+//                            reversedPath.add(0, p);
+//                        }
+//
+//                        List<Pair> gluedToBorder = borders.get(gluedToIdsOne.get(st));
+////                        System.out.println("gluedToBorder " + gluedToBorder);
+//                        run: for (int i = 0; i <= gluedToBorder.size() - end + st; i++) {
+//                            if (gluedToBorder.get(i).first.polygonId == id) {
+////                                System.out.println("it might be " + gluedToBorder.subList(i, i + end - st));
+////                                System.out.println("shifted " + shiftedPath);
+////                                System.out.println("reversed " + reversedPath);
+//                                List<Pair> cand = gluedToBorder.subList(i, i + end - st);
+//                                for (int j = 0; j < shiftedPath.size(); j++) {
+//                                    if (listEquals(cand, shiftedPath)) {
+//                                        answer.add(shiftedPath);
+////                                    maybeAnswer.remove(shiftedAnswer);
+////                                    System.out.println("added " + shP);
+////                                    System.out.println("removed " + shiftedAnswer);
+//                                        break run;
+//                                    }
+//                                    if (listEquals(cand, reversedPath)) {
+//                                        answer.add(reversedPath);
+////                                    maybeAnswer.remove(shiftedAnswer);
+////                                    System.out.println("added " + revShP);
+////                                    System.out.println("removed " + shiftedAnswer);
+//                                        break run;
+//                                    } else {
+//                                        shiftedPath.add(shiftedPath.get(0));
+//                                        shiftedPath.remove(0);
+//                                        reversedPath.add(reversedPath.get(0));
+//                                        reversedPath.remove(0);
+//                                    }
+//                                }
+//                            }
+//                        }
+
+
+                    }
+                }
+                st = end;
+            }
+        }
+        return answer;
+    }
+
+    private List<Pair> findShiftedPath(List<Pair> border, List<Pair> gluedToBorder, int st, int end, int currentId) {
+        List<Pair> shiftedPath = border.subList(st, end);
+//        System.out.println("we are " + currentId);
+//        System.out.println("border = " + border);
+        List<Pair> reversedPath = new ArrayList<>();
+        for (Pair p : shiftedPath) {
+            reversedPath.add(0, p);
+        }
+//                        System.out.println("gluedToBorder " + gluedToBorder);
+        for (int i = 0; i <= gluedToBorder.size() - end + st; i++) {
+            if (gluedToBorder.get(i).first.polygonId == currentId) {
+//                                System.out.println("it might be " + gluedToBorder.subList(i, i + end - st));
+//                                System.out.println("shifted " + shiftedPath);
+//                                System.out.println("reversed " + reversedPath);
+                List<Pair> cand = gluedToBorder.subList(i, i + end - st);
+                for (int j = 0; j < shiftedPath.size(); j++) {
+                    if (listEquals(cand, shiftedPath)) {
+                        return shiftedPath;
+//                        answer.add(shiftedPath);
+//                                    maybeAnswer.remove(shiftedAnswer);
+//                                    System.out.println("added " + shP);
+//                                    System.out.println("removed " + shiftedAnswer);
+//                        break run;
+                    }
+                    if (listEquals(cand, reversedPath)) {
+                        return reversedPath;
+//                        answer.add(reversedPath);
+//                                    maybeAnswer.remove(shiftedAnswer);
+//                                    System.out.println("added " + revShP);
+//                                    System.out.println("removed " + shiftedAnswer);
+//                        break run;
+                    } else {
+                        shiftedPath.add(shiftedPath.get(0));
+                        shiftedPath.remove(0);
+                        reversedPath.add(reversedPath.get(0));
+                        reversedPath.remove(0);
+                    }
                 }
             }
         }
-
-        return answer;
+        return new ArrayList<>();
     }
 
     public GraphType graphType() {
@@ -302,6 +563,8 @@ public class EvenPolygonsSolver {
         List<DCJ> answer = new ArrayList<>();
         run: while (true) {
             List<List<Vertex>> vertexClasses = startGraph.vertexClasses();
+            vertexClasses = vertexClasses.stream().sorted(Comparator.comparingInt(List::size)).collect(Collectors.toList());
+//            System.out.println(vertexClasses);
 
             for (List<Vertex> oneClass : vertexClasses) {
                 int mainPolygon = oneClass.get(0).polygonId;
@@ -336,6 +599,7 @@ public class EvenPolygonsSolver {
                         DCJ dcj = new DCJ(toCut, toGlue);
                         startGraph.doDCJ(dcj);
                         answer.add(dcj);
+//                        System.out.println(dcj);
                         ops++;
                         continue run;
                     }
