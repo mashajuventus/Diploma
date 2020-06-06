@@ -11,6 +11,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class Main {
     public static void main(String[] args) {
@@ -72,29 +73,29 @@ public class Main {
 //                System.out.println("------------------------");
 //            }
 //            System.out.println("distance is " + dcjOpers.size());
-            try (Scanner scanner = new Scanner(new File("dcj_opers"))) {
-//                State beforeSCJ = new State(graph.state.edges);
-
-                int cntOpers = scanner.nextInt();
-                for (int ind = 0; ind < cntOpers; ind++) {
-
-                    List<List<Pair>> edgesForDCJ = new ArrayList<>();
-                    for (int it = 0; it < 2; it++) {
-                        List<Pair> edgesTo = new ArrayList<>();
-                        for (int k = 0; k < 2; k++) {
-                            Edge e0 = new Edge(scanner.nextInt(), scanner.nextInt());
-                            Edge e1 = new Edge(scanner.nextInt(), scanner.nextInt());
-                            edgesTo.add(new Pair(e0, e1));
-                        }
-                        edgesForDCJ.add(edgesTo);
-                    }
-                    DCJ dcj = new DCJ(edgesForDCJ.get(0), edgesForDCJ.get(1));
-                    graph.doDCJ(dcj);
-                }
-
-//                State afterDCJ = new State(graph.state.edges);
-//                System.out.println("after dcj distance is " + beforeSCJ.distanceTo(afterDCJ));
-            }
+//            try (Scanner scanner = new Scanner(new File("dcj_opers"))) {
+////                State beforeSCJ = new State(graph.state.edges);
+//
+//                int cntOpers = scanner.nextInt();
+//                for (int ind = 0; ind < cntOpers; ind++) {
+//
+//                    List<List<Pair>> edgesForDCJ = new ArrayList<>();
+//                    for (int it = 0; it < 2; it++) {
+//                        List<Pair> edgesTo = new ArrayList<>();
+//                        for (int k = 0; k < 2; k++) {
+//                            Edge e0 = new Edge(scanner.nextInt(), scanner.nextInt());
+//                            Edge e1 = new Edge(scanner.nextInt(), scanner.nextInt());
+//                            edgesTo.add(new Pair(e0, e1));
+//                        }
+//                        edgesForDCJ.add(edgesTo);
+//                    }
+//                    DCJ dcj = new DCJ(edgesForDCJ.get(0), edgesForDCJ.get(1));
+//                    graph.doDCJ(dcj);
+//                }
+//
+////                State afterDCJ = new State(graph.state.edges);
+////                System.out.println("after dcj distance is " + beforeSCJ.distanceTo(afterDCJ));
+//            }
 //            System.out.println("end special dcjs");
 
 //            AllWaysSolver allWaysSolver = new AllWaysSolver(graph.copy());
@@ -108,11 +109,33 @@ public class Main {
 //            PatternsSolver solver = new PatternsSolver(graph);
 //            solver.solve(ans);
 
+            long startTimeTree = System.currentTimeMillis();
+            TreeSolver treeSolver = new TreeSolver(graph.copy());
+            System.out.println("tree answer = " + treeSolver.solve().size());
+            long endTimeTree = System.currentTimeMillis();
+            System.out.println("    tree time = " + (1.0 * (endTimeTree - startTimeTree) / 1000) + " seconds");
+
+            long startTime = System.currentTimeMillis();
+            AllWaysSolver bestStatesSolver = new AllWaysSolver(graph.copy());
+            System.out.println("best states answer = " + bestStatesSolver.solve().size());
+            long endTime = System.currentTimeMillis();
+            System.out.print("    best states time = ");
+            System.out.print(1.0 * (endTime - startTime) / 1000);
+            System.out.println(" seconds");
+
+            long startTimeEven = System.currentTimeMillis();
             EvenPolygonsSolver evenPolygonsSolver = new EvenPolygonsSolver(graph.copy());
-            System.out.println(evenPolygonsSolver.findParityPaths());
-            List<DCJ> sol = evenPolygonsSolver.solve();
-            evenPolygonsSolver.checkIsBest();
-            System.out.println("even polygon answer = " + sol.size());
+            System.out.println("even polygons answer = " + evenPolygonsSolver.solve().size());
+            long endTimeEven = System.currentTimeMillis();
+            System.out.println("    parity paths time = " + (1.0 * (endTimeEven - startTimeEven) / 1000) + " seconds");
+
+//            EvenPolygonsSolver evenPolygonsSolver = new EvenPolygonsSolver(graph.copy());
+//            System.out.println(evenPolygonsSolver.findParityPaths());
+//            List<DCJ> sol = evenPolygonsSolver.solve();
+//            evenPolygonsSolver.checkIsBest();
+//            System.out.println("even polygon answer = " + sol.size());
+
+
 //            System.out.println(sol);
 //            evenPolygonsSolver.findParityPaths(0);
 //            for (List<Pair> path : evenPolygonsSolver.findParityPaths()) {

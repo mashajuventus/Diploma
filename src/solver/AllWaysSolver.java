@@ -17,74 +17,22 @@ public class AllWaysSolver {
     public long closestBestStates = 0;
     public List<State> bestStates = new ArrayList<>();
     public boolean isFirst = true;
+    private long startTime;
 
     public AllWaysSolver(Graph graph) {
         this.startGraph = graph;
         maxVerticesCount = -1;
-        bestHeight = Integer.MAX_VALUE;
-        bestOperations = new ArrayList<>();
-        bestVerticesResult = graph.bestAnswer();
+//        bestHeight = Integer.MAX_VALUE;
+//        bestOperations = new ArrayList<>();
+//        bestVerticesResult = graph.bestAnswer();
+//        startTime = System.currentTimeMillis();
 //        System.out.println("bestVerticesPossible is " + bestVerticesResult);
-    }
-
-    public void buildTree(int height) {
-        // calculate the answer
-        // if the answer better than current, set new bestOperations
-        // if the answer equals to current then check the height
-            // if it is better than current, set new
-            // if it equals to current, add new operations
-        // if height is 0 or best answer is achieved then return
-
-        // create all possible dcj
-        // for every do the follow
-            // do dcj
-            // build tree with height - 1
-            // undo dcj
-        helpBuild(height, height, new ArrayList<>());
-    }
-
-    private void helpBuild(int height, int maxHeight, List<DCJ> opers) {
-        already++;
-        if (already % 100000 == 0) {
-            System.err.println("already " + already + " graphs checked");
-        }
-        int newVerticesCount = startGraph.calculate3dVertices();
-        if (newVerticesCount > maxVerticesCount) {
-            maxVerticesCount = newVerticesCount;
-            bestHeight = height;
-            System.out.println("bestHeight now is " + bestHeight);
-            bestOperations = new ArrayList<>();
-            bestOperations.add(opers);
-        } else if (newVerticesCount == maxVerticesCount) {
-            if (height > bestHeight) { // it means we did CNT - height operations
-                bestHeight = height;
-                bestOperations = new ArrayList<>();
-                bestOperations.add(opers);
-            } else if (height == bestHeight) {
-                bestOperations.add(opers);
-            }
-        }
-
-        if (newVerticesCount == bestVerticesResult && height >= bestHeight) {
-            System.err.println("    this is best configuration after " + (maxHeight - height) + " step(s)");
-            System.out.println("    after checking " + already + " graphs");
-            return;
-        }
-        if (height == 0) return;
-
-        List<DCJ> possibleDCJs = startGraph.state.genAllChildrenDcj();
-        for (DCJ dcj : possibleDCJs) {
-            startGraph.doDCJ(dcj);
-            List<DCJ> newOpers = new ArrayList<>(opers);
-            newOpers.add(dcj);
-            helpBuild(height - 1, maxHeight, newOpers);
-            startGraph.undoDCJ(dcj);
-        }
     }
 
     public List<DCJ> solve() {
 //        List<State> bestStates = startGraph.genBestStates();
 
+        long ops = 0;
         // find one closest state
         closestBestStates = 0;
         int bestDistance = Integer.MAX_VALUE;
@@ -95,7 +43,9 @@ public class AllWaysSolver {
 //            System.out.println("first time");
             isFirst = false;
             // from genBestStates
+//            System.out.println("start yeilding");
             List<List<List<Pair>>> gluingsForOddAndEven = startGraph.yeildBestStates();
+//            System.out.println("end yielding");
             List<Integer> polSizes = new ArrayList<>();
             for (List<List<Pair>> onePolygon : gluingsForOddAndEven) {
                 polSizes.add(onePolygon.size());
@@ -132,6 +82,10 @@ public class AllWaysSolver {
                 if (thisStateDistance == bestDistance) {
                     closestBestStates++;
                     newBestStates.add(state);
+                }
+                ops++;
+                if (ops % 500000 == 0) {
+                    System.out.println("   " + ops + " done");
                 }
             }
         } else {

@@ -46,4 +46,8 @@ public class DCJ {
                 .append("\n");
         return builder.toString();
     }
+
+//    public boolean equals(DCJ dcj) {
+//        List<DCJ> cutOther = dcj.edgesToCut.sort();
+//    }
 }
